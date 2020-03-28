@@ -8,15 +8,22 @@ from .serializers import UserSerializer, UserSerializerWithToken
 
 
 @api_view(['GET'])
-
 def current_user(request):
-    # Determine the data of the user then return their data
+    """
+    Determine the current user by their token, and return their data
+    """
+
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
 
+
 class UserList(APIView):
-    # Create new user called UserList in order to retrieve list of users
-    permission_classes = (permissions.AllowAny, )
+    """
+    Create a new user. It's called 'UserList' because normally we'd have a get
+    method here too, for retrieving a list of all User objects.
+    """
+
+    permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
         serializer = UserSerializerWithToken(data=request.data)
